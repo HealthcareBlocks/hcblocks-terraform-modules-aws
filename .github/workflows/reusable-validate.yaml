@@ -1,0 +1,58 @@
+name: reusable/validate
+on:
+  workflow_call:
+    secrets:
+      appPrivateKey:
+        description: "GitHub Application private key"
+        required: false
+
+    inputs:
+      appId:
+        description: "GitHub Application ID"
+        required: false
+        type: string
+
+      terraformVersion:
+        description: "Defines terraform version to use"
+        required: true
+        type: string
+
+      moduleRootDirectory:
+        description: "Defines root module directory"
+        required: true
+        type: string
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.moduleRootDirectory }}
+    steps:
+      - name: Terraform-SetupWithCloud
+        uses: hashicorp/setup-terraform@v3.1.1
+        with:
+          terraform_version: ${{ inputs.terraformVersion }}
+
+      - name: Generate token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ inputs.appId }}
+          private-key: ${{ secrets.appPrivateKey }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ github.head_ref }}
+          persist-credentials: false
+
+      - name: Format
+        run: |
+          terraform fmt -write=false -diff -check
+
+      - name: Validate
+        run: |
+          terraform init --backend=false
+          terraform validate
