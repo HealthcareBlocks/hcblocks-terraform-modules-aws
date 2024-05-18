@@ -4,7 +4,7 @@ Creates an ALB with a default security group and a default HTTP listener that re
 
 Supports instance, IP, and Lambda target groups.
 
-Module documentation is in the [wiki](wiki).
+Module documentation is in the [wiki](https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws/wiki/alb).
 
 ## Credits
 
