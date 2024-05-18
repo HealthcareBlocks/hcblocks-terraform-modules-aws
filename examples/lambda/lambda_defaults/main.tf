@@ -7,7 +7,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "../../../vpc"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.0.0"
 
   cidr_block                        = "10.10.0.0/16"
   vpc_name                          = "vpc"
@@ -15,7 +15,8 @@ module "vpc" {
 }
 
 module "lambda" {
-  source = "../../../lambda_function"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.0.0"
+
 
   filename            = "${path.module}/helloworld.py"
   function_name       = "helloworld"

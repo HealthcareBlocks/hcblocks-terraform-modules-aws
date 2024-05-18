@@ -7,7 +7,7 @@ provider "aws" {
 }
 
 module "sns" {
-  source = "../../../sns"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=sns/v1.0.0"
 
   topic_name = "system-alerts"
 

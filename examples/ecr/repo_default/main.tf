@@ -7,7 +7,7 @@ provider "aws" {
 }
 
 module "ecr_repo" {
-  source      = "../../../ecr"
+  source      = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ecr/v1.0.0"
   name_prefix = "ecr-default"
 }
 

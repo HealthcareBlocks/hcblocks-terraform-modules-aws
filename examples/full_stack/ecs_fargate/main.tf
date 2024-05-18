@@ -14,21 +14,21 @@ data "aws_acm_certificate" "test" {
 }
 
 module "vpc" {
-  source                            = "../../../vpc"
+  source                            = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.0.0"
   cidr_block                        = "10.100.0.0/16"
   vpc_name                          = "vpc-prod"
   vpc_endpoint_interfaces_to_enable = ["ecr.api", "ecr.dkr", "logs", "secretsmanager"]
 }
 
 module "log_bucket" {
-  source                            = "../../../s3_bucket"
+  source                            = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.0.0"
   bucket_prefix                     = "logs"
   enable_load_balancer_log_delivery = true
   force_destroy                     = true # set to false in production environments
 }
 
 module "alb" {
-  source                     = "../../../alb"
+  source                     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=alb/v1.0.0"
   acm_certificate            = data.aws_acm_certificate.test.arn
   enable_deletion_protection = false # set to true in production environments
   logs_bucket                = module.log_bucket.bucket_name
@@ -80,7 +80,8 @@ resource "aws_security_group" "app" {
 }
 
 module "ecs_cluster" {
-  source                     = "../../../ecs_fargate_cluster"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ecs_fargate_cluster/v1.0.0"
+
   name                       = "cluster"
   cloudwatch_logs_group_name = aws_cloudwatch_log_group.ecs.name
 
@@ -90,7 +91,8 @@ module "ecs_cluster" {
 }
 
 module "ecs_service" {
-  source          = "../../../ecs_fargate_service"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ecs_fargate_service/v1.0.0"
+
   name            = "app"
   ecs_cluster_id  = module.ecs_cluster.id
   security_groups = [aws_security_group.app.id]

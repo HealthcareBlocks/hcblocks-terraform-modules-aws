@@ -4,4 +4,4 @@ Module used in conjunction with the [ec2_instance_user_manager](../ec2_instance_
 
 EC2 instances must have the "AmazonSSMManagedInstanceCore" managed AWS policy attached to their instance role.
 
-Module documentation is in the [wiki](hhttps://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws/wiki/ec2_instance_user).
+Module documentation is in the [wiki](https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws/wiki/ec2_instance_user).
