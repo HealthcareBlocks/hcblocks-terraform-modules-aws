@@ -56,6 +56,7 @@ jobs:
           script: |
             const raw = JSON.parse(process.env.RAW_FILES);
             const directories = Array.from(new Set(raw
+              .filter(x => !x.startsWith('examples'))
               .filter(x => !x.startsWith('.'))
               .filter(x => x.includes('/'))
               .map(x => x.split('/')[0])
@@ -67,7 +68,7 @@ jobs:
 
   validate:
     needs: detect
-    if: ${{ matrix.directory != 'examples' && needs.detect.outputs.directories != '{}' && github.event.action != 'closed' }}
+    if: ${{ needs.detect.outputs.directories != '{}' && github.event.action != 'closed' }}
     strategy:
       matrix: "${{ fromJson(needs.detect.outputs.directories) }}"
       fail-fast: false
@@ -81,7 +82,7 @@ jobs:
 
   lint:
     needs: detect
-    if: ${{ matrix.directory != 'examples' && needs.detect.outputs.directories != '{}' && github.event.action != 'closed' }}
+    if: ${{ needs.detect.outputs.directories != '{}' && github.event.action != 'closed' }}
     strategy:
       matrix: "${{ fromJson(needs.detect.outputs.directories) }}"
       fail-fast: false
@@ -94,7 +95,7 @@ jobs:
 
   plan:
     needs: detect
-    if: ${{ matrix.directory != 'examples' && needs.detect.outputs.directories != '{}' && ( needs.detect.outputs.is-merge-event == 'true' || github.event.action != 'closed' )}}
+    if: ${{ needs.detect.outputs.directories != '{}' && ( needs.detect.outputs.is-merge-event == 'true' || github.event.action != 'closed' )}}
     strategy:
       matrix: "${{ fromJson(needs.detect.outputs.directories) }}"
       fail-fast: false
