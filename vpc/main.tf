@@ -63,6 +63,7 @@ resource "aws_subnet" "public" {
 
   tags = {
     Name = "Public Subnet | ${local.zone_names[count.index]} | ${var.vpc_name} VPC"
+    Type = "Public"
   }
 }
 
@@ -75,6 +76,7 @@ resource "aws_subnet" "private" {
 
   tags = {
     Name = "Private Subnet | ${local.zone_names[count.index]} | ${var.vpc_name} VPC"
+    Type = "Private"
   }
 }
 
@@ -92,6 +94,7 @@ resource "aws_default_route_table" "default" {
 
   tags = {
     Name = "Public Route Table | ${var.vpc_name} VPC"
+    Type = "Public"
   }
 }
 
@@ -105,6 +108,7 @@ resource "aws_route_table" "private" {
 
   tags = {
     Name = "Private Route Table | ${var.vpc_name} VPC"
+    Type = "Private"
   }
 }
 
