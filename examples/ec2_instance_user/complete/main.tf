@@ -20,12 +20,11 @@ locals {
 }
 
 module "ec2_instance_user_manager" {
-  source = "../../../ec2_instance_user_manager"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user_manager/v1.0.0"
 }
 
 module "ec2_instance_user_tswift" {
-  source = "../../../ec2_instance_user"
-
+  source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.0.0"
   instance_ids = [aws_instance.bastion.id]
   username     = "tswift"
   groups       = ["sshusers", "admin"] # these groups should already exist on the instance
@@ -38,8 +37,7 @@ module "ec2_instance_user_tswift" {
 }
 
 module "ec2_instance_user_tkelce" {
-  source = "../../../ec2_instance_user"
-
+  source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.0.0"
   instance_ids = [aws_instance.bastion.id]
   username     = "tkelce"
   groups       = ["sshusers"] # these groups should already exist on the instance
@@ -54,8 +52,7 @@ module "ec2_instance_user_tkelce" {
 # -----------------------------------------------------------------------------
 
 module "vpc" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.0.0"
-
+  source                  = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.0.0"
   cidr_block              = "10.10.0.0/16"
   private_subnets_enabled = false
   vpc_name                = "vpc-test"

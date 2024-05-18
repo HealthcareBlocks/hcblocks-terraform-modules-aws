@@ -7,7 +7,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source     = "../../../vpc"
+  source     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.0.0"
   cidr_block = "10.100.0.0/16"
   vpc_name   = "vpc-prod"
 
@@ -15,7 +15,7 @@ module "vpc" {
 }
 
 module "log_bucket" {
-  source                            = "../../../s3_bucket"
+  source                            = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.0.0"
   bucket_prefix                     = "logs"
   enable_load_balancer_log_delivery = true
   force_destroy                     = true # set to false in production environments
@@ -27,7 +27,7 @@ data "aws_acm_certificate" "test" {
 }
 
 module "alb" {
-  source                     = "../../../alb"
+  source                     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=alb/v1.0.0"
   acm_certificate            = data.aws_acm_certificate.test.arn
   enable_deletion_protection = false # set to true in production environments
   logs_bucket                = module.log_bucket.bucket_name
@@ -64,8 +64,7 @@ module "alb" {
 }
 
 module "lambda" {
-  source = "../../../lambda_function"
-
+  source              = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.0.0"
   filename            = "${path.module}/helloworld.py"
   function_name       = "helloworld"
   function_handler    = "helloworld.lambda_handler"
