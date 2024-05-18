@@ -222,15 +222,21 @@ data "aws_iam_policy_document" "task_exec" {
   }
 }
 
+locals {
+  create_task_exec_policy = length(var.task_exec_ssm_params) > 0 || length(var.task_exec_secrets) > 0 || length(var.task_exec_kms_keys) > 0
+}
+
 resource "aws_iam_policy" "task_exec" {
+  count       = local.create_task_exec_policy ? 1 : 0
   name_prefix = "task-exec-policy-"
   description = "Task execution role IAM policy"
   policy      = data.aws_iam_policy_document.task_exec.json
 }
 
 resource "aws_iam_role_policy_attachment" "task_exec_policy" {
+  count      = local.create_task_exec_policy ? 1 : 0
   role       = aws_iam_role.task_exec.name
-  policy_arn = aws_iam_policy.task_exec.arn
+  policy_arn = aws_iam_policy.task_exec[0].arn
 }
 
 data "aws_iam_policy_document" "tasks_assume" {
