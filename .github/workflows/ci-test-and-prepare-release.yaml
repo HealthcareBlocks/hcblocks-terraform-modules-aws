@@ -56,6 +56,7 @@ jobs:
           script: |
             const raw = JSON.parse(process.env.RAW_FILES);
             const directories = Array.from(new Set(raw
+              .filter(x => !x.startsWith('examples'))
               .filter(x => !x.startsWith('.'))
               .filter(x => x.includes('/'))
               .map(x => x.split('/')[0])
