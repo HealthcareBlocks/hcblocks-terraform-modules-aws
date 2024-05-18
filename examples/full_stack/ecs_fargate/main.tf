@@ -91,12 +91,13 @@ module "ecs_cluster" {
 }
 
 module "ecs_service" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ecs_fargate_service/v1.0.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ecs_fargate_service/v1.0.1"
 
   name            = "app"
   ecs_cluster_id  = module.ecs_cluster.id
   security_groups = [aws_security_group.app.id]
   subnets         = module.vpc.private_subnet_ids
+  task_family     = "app-task"
 
   cpu    = 1024
   memory = 2048
