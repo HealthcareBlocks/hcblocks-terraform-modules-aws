@@ -5,7 +5,38 @@
 variable "bucket_prefix" {
   description = "First part of bucket name. Module automatically appends account id and region to name."
   type        = string
+
+  validation {
+    condition     = length(var.bucket_prefix) < 36
+    error_message = "The bucket_prefix must be no longer than 35 characters."
+  }
+
+  validation {
+    condition     = can(regex("^[a-z0-9][a-z0-9.-]*$", var.bucket_prefix))
+    error_message = "The bucket_prefix can only consist of lowercase letters, numbers, dots (.), and hyphens (-)."
+  }
+
+  validation {
+    condition     = !can(regex("\\.\\.", var.bucket_prefix))
+    error_message = "The bucket_prefix must not contain two adjacent periods."
+  }
+
+  validation {
+    condition     = !can(regex("^(\\d{1,3}\\.){3}\\d{1,3}.*$", var.bucket_prefix))
+    error_message = "The bucket_prefix must not be formatted as an IP address."
+  }
+
+  validation {
+    condition     = !can(regex("^xn--", var.bucket_prefix))
+    error_message = "The bucket_prefix must not start with the prefix xn--."
+  }
+
+  validation {
+    condition     = !can(regex("^sthree(-|$)", var.bucket_prefix))
+    error_message = "The bucket_prefix must not start with the prefix sthree- or sthree-configurator."
+  }
 }
+
 
 # -----------------------------------------------------------------------------
 # DEFAULT PUBLIC BLOCK PARAMETERS

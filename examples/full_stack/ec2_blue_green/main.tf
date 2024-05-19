@@ -70,7 +70,7 @@ resource "aws_instance" "web-2" {
 }
 
 module "log_bucket" {
-  source                            = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.0.0"
+  source                            = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.1.0"
   bucket_prefix                     = "logs"
   enable_load_balancer_log_delivery = true
   force_destroy                     = true # set to false in production environments
