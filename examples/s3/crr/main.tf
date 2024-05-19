@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 module "source_bucket" {
-  source        = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.0.0"
+  source        = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.1.0"
   bucket_prefix = "source-bucket"
 }
 
@@ -21,7 +21,7 @@ module "destination_bucket" {
     aws = aws.us-east-2
   }
 
-  source        = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.0.0"
+  source        = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.1.0"
   bucket_prefix = "destination-bucket"
 }
 
