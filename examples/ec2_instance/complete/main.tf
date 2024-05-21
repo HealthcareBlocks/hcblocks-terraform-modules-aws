@@ -1,9 +1,3 @@
-# bitnami-wordpress-6.2.2-21-r24-linux-debian-*
-# virtualization-type=hvm
-# 979382823631
-
-# t3.micro
-
 module "vpc" {
   source     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.1.0"
   cidr_block = "10.100.0.0/16"
