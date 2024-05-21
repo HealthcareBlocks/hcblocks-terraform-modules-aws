@@ -63,7 +63,7 @@ module "vpc" {
 # -----------------------------------------------------------------------------
 
 module "instance_bastion" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.1"
 
   ami_name                      = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
   ami_owners                    = ["099720109477"]

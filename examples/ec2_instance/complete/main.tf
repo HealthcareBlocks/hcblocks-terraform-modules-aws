@@ -13,7 +13,7 @@ module "vpc" {
 }
 
 module "instance_frontend" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.1"
 
   ami_name                      = "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-*"
   delete_volumes_on_termination = true # this should be set to false in prod environments
@@ -41,7 +41,7 @@ module "instance_frontend" {
 }
 
 module "instance_amazonlinux" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.1"
 
   ami_name                      = "al2023-ami-2023.4*"
   delete_volumes_on_termination = true # this should be set to false in prod environments
@@ -66,7 +66,7 @@ module "instance_amazonlinux" {
 }
 
 module "instance_arm64" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.1"
 
   ami_name                      = "al2023-ami-2023.4*"
   ami_architecture              = "arm64" # important to set for arm64 instances

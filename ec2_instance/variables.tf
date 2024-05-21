@@ -243,7 +243,7 @@ variable "security_group_rules" {
       }
     }
   EOF
-  type        = map(any)
+  type        = any
 }
 
 variable "status_check_failed_alarm_period" {
