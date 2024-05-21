@@ -91,7 +91,7 @@ module "ecs_cluster" {
 }
 
 module "ecs_service" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ecs_fargate_service/v1.0.1"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ecs_fargate_service/v1.0.2"
 
   name            = "app"
   ecs_cluster_id  = module.ecs_cluster.id
