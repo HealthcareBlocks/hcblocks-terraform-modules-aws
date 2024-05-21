@@ -101,7 +101,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution_role_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_attached_policies" {
-  for_each   = toset(var.roles_to_attach)
+  for_each   = toset(var.policies_to_attach)
   role       = aws_iam_role.lambda.name
   policy_arn = each.key
 }
