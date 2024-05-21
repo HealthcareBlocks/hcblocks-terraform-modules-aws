@@ -27,7 +27,7 @@ module "destination_bucket" {
 }
 
 module "replication_example" {
-  source                    = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_crr/v1.0.0"
+  source                    = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_crr/v1.0.1"
   source_bucket_arn         = module.source_bucket.bucket_arn
   source_bucket_name        = module.source_bucket.bucket_id
   destination_bucket_arn    = module.destination_bucket.bucket_arn

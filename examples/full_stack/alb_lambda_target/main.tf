@@ -27,7 +27,7 @@ data "aws_acm_certificate" "test" {
 }
 
 module "alb" {
-  source                     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=alb/v1.0.0"
+  source                     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=alb/v1.0.1"
   acm_certificate            = data.aws_acm_certificate.test.arn
   enable_deletion_protection = false # set to true in production environments
   logs_bucket                = module.log_bucket.bucket_name
@@ -64,7 +64,7 @@ module "alb" {
 }
 
 module "lambda" {
-  source              = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.0.0"
+  source              = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.0.1"
   filename            = "${path.module}/helloworld.py"
   function_name       = "helloworld"
   function_handler    = "helloworld.lambda_handler"

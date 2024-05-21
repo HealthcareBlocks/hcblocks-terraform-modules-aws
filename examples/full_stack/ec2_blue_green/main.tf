@@ -23,7 +23,7 @@ module "vpc" {
 }
 
 module "instance_web_1" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.1"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.2"
 
   ami_name                      = local.ami_name
   ami_owners                    = [local.ami_owner]
@@ -48,7 +48,7 @@ module "instance_web_1" {
 }
 
 module "instance_web_2" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.1"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.2"
 
   ami_name                      = local.ami_name
   ami_owners                    = [local.ami_owner]
@@ -80,7 +80,7 @@ module "log_bucket" {
 }
 
 module "alb" {
-  source                     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=alb/v1.0.0"
+  source                     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=alb/v1.0.1"
   acm_certificate            = data.aws_acm_certificate.test.arn
   enable_deletion_protection = false # set to true in production environments
   logs_bucket                = module.log_bucket.bucket_name
