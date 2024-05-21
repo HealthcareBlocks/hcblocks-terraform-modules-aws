@@ -25,7 +25,7 @@ module "ec2_instance_user_manager" {
 
 module "ec2_instance_user_tswift" {
   source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.0.0"
-  instance_ids = [aws_instance.bastion.id]
+  instance_ids = [module.instance_bastion.instance_id]
   username     = "tswift"
   groups       = ["sshusers", "admin"] # these groups should already exist on the instance
   ssh_keys     = local.tswift_keys
@@ -38,7 +38,7 @@ module "ec2_instance_user_tswift" {
 
 module "ec2_instance_user_tkelce" {
   source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.0.0"
-  instance_ids = [aws_instance.bastion.id]
+  instance_ids = [module.instance_bastion.instance_id]
   username     = "tkelce"
   groups       = ["sshusers"] # these groups should already exist on the instance
   ssh_keys     = local.tkelce_keys
@@ -62,12 +62,38 @@ module "vpc" {
 # EC2 Instance and related resources
 # -----------------------------------------------------------------------------
 
-resource "aws_instance" "bastion" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t3.micro"
-  iam_instance_profile   = aws_iam_instance_profile.bastion.name
-  subnet_id              = module.vpc.public_subnet_ids[0]
-  vpc_security_group_ids = [aws_security_group.bastion.id]
+module "instance_bastion" {
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.0"
+
+  ami_name                      = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
+  ami_owners                    = ["099720109477"]
+  delete_volumes_on_termination = true # this should be set to false in prod environments
+  identifier                    = "bastion"
+  instance_type                 = "t3.micro"
+  subnet_id                     = module.vpc.public_subnet_ids[0]
+  vpc_id                        = module.vpc.id
+
+  sns_topic_high_cpu                = module.sns.topic_arn
+  sns_topic_high_memory             = module.sns.topic_arn
+  sns_topic_root_volume_low_storage = module.sns.topic_arn
+  sns_topic_status_check_failed     = module.sns.topic_arn
+
+  security_group_rules = {
+    allow_443_vpc = {
+      from_port   = 443
+      to_port     = 443
+      cidr_blocks = [module.vpc.cidr_block]
+    }
+
+    /*
+    allow_ssh = {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["MY-IP-ADDRESS"]
+    }
+    */
+  }
 
   user_data = <<-EOF
     #!/bin/bash
@@ -77,76 +103,7 @@ resource "aws_instance" "bastion" {
     EOF
 }
 
-resource "aws_security_group" "bastion" {
-  name_prefix = "bastion-"
-  description = "Bastion"
-  vpc_id      = module.vpc.id
-
-  /*
-  ingress {
-    description = "SSH access"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["MY-IP-ADDRESS"]
-  }
-  */
-
-  egress {
-    description = "egress"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
-
-# -----------------------------------------------------------------------------
-# IAM Role and Policies
-# -----------------------------------------------------------------------------
-
-resource "aws_iam_role" "bastion" {
-  name_prefix           = "bastion-"
-  force_detach_policies = true
-  assume_role_policy    = <<EOF
-{
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Action": "sts:AssumeRole",
-			"Principal": {
-				"Service": "ec2.amazonaws.com"
-			},
-			"Effect": "Allow",
-			"Sid": ""
-		}
-	]
-}
-EOF
-}
-
-resource "aws_iam_instance_profile" "bastion" {
-  name_prefix = "bastion-"
-  role        = aws_iam_role.bastion.id
-}
-
-resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCore" {
-  role       = aws_iam_role.bastion.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+module "sns" {
+  source     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=sns/v1.0.0"
+  topic_name = "ec2-instance-alarms"
 }
