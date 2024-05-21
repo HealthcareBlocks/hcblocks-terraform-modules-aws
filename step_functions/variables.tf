@@ -29,13 +29,13 @@ variable "additional_iam_policies" {
 
 variable "allowed_lambda_functions_to_invoke" {
   description = "Lambda function ARNs that can be invoked by this state machine. Creates the proper IAM policy."
-  type        = list(any)
+  type        = list(string)
   default     = []
 }
 
 variable "allowed_sqs_queues_to_call" {
   description = "SQS queue ARNs that can be called by this state machine. Creates the proper IAM policy."
-  type        = list(any)
+  type        = list(string)
   default     = []
 }
 

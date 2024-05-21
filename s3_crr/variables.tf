@@ -36,6 +36,6 @@ variable "destination_bucket_storage_class" {
 
 variable "replication_filter" {
   description = "See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_replication_configuration#filter."
-  type        = map(any)
+  type        = any
   default     = {}
 }

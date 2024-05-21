@@ -28,7 +28,7 @@ variable "runtime" {
 
 variable "additional_iam_policies" {
   description = "Additional IAM policies to attach to Lambda IAM role"
-  type        = list(any)
+  type        = list(string)
   default     = []
 }
 
@@ -70,13 +70,13 @@ variable "publish_new_version" {
 
 variable "security_group_ids" {
   description = "VPC security groups used by function"
-  type        = list(any)
+  type        = list(string)
   default     = []
 }
 
 variable "subnet_ids" {
   description = "VPC subnets to run function inside"
-  type        = list(any)
+  type        = list(string)
   default     = []
 }
 

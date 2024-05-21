@@ -60,7 +60,7 @@ variable "additional_iam_policies_to_attach" {
 
 variable "additional_security_groups_to_attach" {
   description = "This module creates a security group for the instance with a default egress rule. To set ingress rules, either set `additional_security_groups_to_attach` to a list of security group ID's or set the `security_group_rules` variable."
-  type        = list(any)
+  type        = list(string)
   default     = []
 }
 
@@ -96,7 +96,7 @@ variable "associate_public_ip_address" {
 
 variable "cloudwatch_additional_logs_config" {
   description = "Additional logs to collect by the CloudWatch agent. Should contain a list of map objects containing the following fields: file_path, log_group_name, timezone, auto_removal. See https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Agent-Configuration-File-Details.html."
-  type        = list(any)
+  type        = any
   default     = []
 }
 

@@ -14,7 +14,7 @@ variable "logs_bucket" {
 
 variable "target_groups" {
   description = "Map of target group configurations to create"
-  type        = map(any)
+  type        = any
 }
 
 variable "vpc_id" {
@@ -28,19 +28,19 @@ variable "vpc_id" {
 
 variable "target_group_members_instance" {
   description = "Map of instances to attach to a target group. Use `target_group_key` to attach to the target group created in `target_groups`. Set `target_id` to an instance ID. Optionally set `port`."
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
 variable "target_group_members_ip" {
   description = "Map of IP targets to attach to a target group. Use `target_group_key` to attach to the target group created in `target_groups`. Set `target_id` to an IP address. `create_attachment` can be set to false for ECS services. Optionally set `port`."
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
 variable "target_group_members_lambda" {
   description = "Map of lambda functions to attach to a target group. Use `target_group_key` to attach to the target group created in `target_groups`. Set `target_id` to lambda function's ARN. Set `lambda_function_name` to lambda function's name."
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
