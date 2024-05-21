@@ -24,12 +24,12 @@ variable "load_balancer_config" {
 
 variable "security_groups" {
   description = "VPC security groups associated with the service."
-  type        = any
+  type        = list(string)
 }
 
 variable "subnets" {
   description = "VPC subnets associated with the service. These should be private subnets per the AWS Well-Architected Framework."
-  type        = any
+  type        = list(string)
 }
 
 # -----------------------------------------------------------------------------

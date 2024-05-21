@@ -254,7 +254,7 @@ variable "status_check_failed_alarm_period" {
 
 variable "tags" {
   description = "Optional map of key-value pairs to use as tags. Note that this module already sets a Name tag equivalent to the `identifier` variable."
-  type        = map(any)
+  type        = map(string)
   default     = {}
 }
 
