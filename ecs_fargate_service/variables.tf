@@ -4,7 +4,7 @@
 
 variable "container_definitions" {
   description = "List of container definitions to run as an ECS service. See https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html."
-  type        = list(any)
+  type        = any
 }
 
 variable "name" {
@@ -24,12 +24,12 @@ variable "load_balancer_config" {
 
 variable "security_groups" {
   description = "VPC security groups associated with the service."
-  type        = list(any)
+  type        = list(string)
 }
 
 variable "subnets" {
   description = "VPC subnets associated with the service. These should be private subnets per the AWS Well-Architected Framework."
-  type        = list(any)
+  type        = list(string)
 }
 
 # -----------------------------------------------------------------------------

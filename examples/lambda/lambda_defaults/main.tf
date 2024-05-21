@@ -15,7 +15,7 @@ module "vpc" {
 }
 
 module "lambda" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.0.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.0.1"
 
 
   filename            = "${path.module}/helloworld.py"
