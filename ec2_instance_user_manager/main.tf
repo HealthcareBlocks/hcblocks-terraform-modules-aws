@@ -40,7 +40,7 @@ resource "aws_lambda_permission" "event_bridge_lambda_execution" {
 # -----------------------------------------------------------------------------
 
 resource "aws_cloudwatch_event_rule" "ssm_params_trigger" {
-  name        = "ssm_parameter_change"
+  name        = var.cloudwatch_event_rule_name
   description = "Trigger for changes to SSM parameters with prefix /ec2_instance"
 
   event_pattern = <<EOF

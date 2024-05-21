@@ -20,7 +20,7 @@ locals {
 }
 
 module "ec2_instance_user_manager" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user_manager/v1.0.1"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user_manager/v1.1.0"
 }
 
 module "ec2_instance_user_tswift" {
