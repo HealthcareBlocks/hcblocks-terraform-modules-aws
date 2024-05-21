@@ -272,5 +272,6 @@ variable "termination_protection_enabled" {
 
 variable "user_data" {
   description = "Optional commands to run on first boot"
+  type        = string
   default     = ""
 }
