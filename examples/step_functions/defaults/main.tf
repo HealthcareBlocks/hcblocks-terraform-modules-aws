@@ -15,15 +15,16 @@ module "vpc" {
 }
 
 module "lambda" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.0.1"
+  #source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.1.0"
+  source = "../../../lambda_function"
 
-  filename            = "${path.module}/helloworld.py"
-  function_name       = "helloworld"
-  function_handler    = "helloworld.lambda_handler"
-  runtime             = "python3.8"
-  security_group_ids  = [aws_security_group.lambda_helloworld.id]
-  subnet_ids          = module.vpc.private_subnet_ids
-  publish_new_version = true
+  filename           = "${path.module}/helloworld.py"
+  function_name      = "helloworld"
+  function_handler   = "helloworld.lambda_handler"
+  runtime            = "python3.8"
+  security_group_ids = [aws_security_group.lambda_helloworld.id]
+  subnet_ids         = module.vpc.private_subnet_ids
+  #publish_new_version = true
 
   env_variables = {
     foo = "bar"
@@ -51,7 +52,8 @@ module "cloudwatch_logs" {
 }
 
 module "step_functions" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=step_functions/v1.0.1"
+  #source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=step_functions/v1.0.1"
+  source = "../../../step_functions"
 
   allowed_lambda_functions_to_invoke = [
     module.lambda.lambda_function_arn,
