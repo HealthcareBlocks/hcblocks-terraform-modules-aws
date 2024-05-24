@@ -64,7 +64,7 @@ module "alb" {
 }
 
 module "lambda" {
-  source              = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.0.1"
+  source              = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.1.0"
   filename            = "${path.module}/helloworld.py"
   function_name       = "helloworld"
   function_handler    = "helloworld.lambda_handler"
