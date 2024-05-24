@@ -83,8 +83,8 @@ data "aws_iam_policy_document" "cwlogs_permissions" {
 }
 
 resource "aws_iam_policy" "cwlogs_permissions_policy" {
-  name   = "cwlogs_permissions"
-  policy = data.aws_iam_policy_document.cwlogs_permissions.json
+  name_prefix = "cwlogs-"
+  policy      = data.aws_iam_policy_document.cwlogs_permissions.json
 }
 
 resource "aws_iam_role_policy_attachment" "cwlogs_permissions_policy" {
@@ -116,9 +116,9 @@ data "aws_iam_policy_document" "xray_permissions" {
 }
 
 resource "aws_iam_policy" "xray_permissions_policy" {
-  count  = var.enable_tracing_configuration == true ? 1 : 0
-  name   = "xray_permissions"
-  policy = data.aws_iam_policy_document.xray_permissions[0].json
+  count       = var.enable_tracing_configuration == true ? 1 : 0
+  name_prefix = "xray-"
+  policy      = data.aws_iam_policy_document.xray_permissions[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "xray_permissions_policy" {
@@ -145,9 +145,9 @@ data "aws_iam_policy_document" "lambda_permissions" {
 }
 
 resource "aws_iam_policy" "lambda_permissions_policy" {
-  count  = length(var.allowed_lambda_functions_to_invoke) > 1 ? 1 : 0
-  name   = "lambda_permissions"
-  policy = data.aws_iam_policy_document.lambda_permissions[0].json
+  count       = length(var.allowed_lambda_functions_to_invoke) > 1 ? 1 : 0
+  name_prefix = "lambda-"
+  policy      = data.aws_iam_policy_document.lambda_permissions[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_permissions_policy" {
@@ -175,9 +175,9 @@ data "aws_iam_policy_document" "sqs_permissions" {
 }
 
 resource "aws_iam_policy" "sqs_permissions_policy" {
-  count  = length(var.allowed_sqs_queues_to_call) > 1 ? 1 : 0
-  name   = "sqs_permissions"
-  policy = data.aws_iam_policy_document.sqs_permissions[0].json
+  count       = length(var.allowed_sqs_queues_to_call) > 1 ? 1 : 0
+  name_prefix = "sqs-"
+  policy      = data.aws_iam_policy_document.sqs_permissions[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "sqs_permissions_policy" {
