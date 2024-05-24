@@ -1,7 +1,6 @@
 locals {
-  filename_without_extension = split(".", var.filename)[0]
-  output_path                = "${path.module}/${local.filename_without_extension}.zip"
-  create_vpc_resources       = length(var.subnet_ids) > 0
+  output_path          = "${var.filename}.zip"
+  create_vpc_resources = length(var.subnet_ids) > 0
 }
 
 data "archive_file" "this" {
