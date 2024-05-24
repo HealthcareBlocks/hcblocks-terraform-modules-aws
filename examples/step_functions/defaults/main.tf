@@ -15,8 +15,7 @@ module "vpc" {
 }
 
 module "lambda" {
-  #source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.1.0"
-  source = "../../../lambda_function"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.1.0"
 
   filename           = "${path.module}/helloworld.py"
   function_name      = "helloworld"
@@ -52,8 +51,7 @@ module "cloudwatch_logs" {
 }
 
 module "step_functions" {
-  #source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=step_functions/v1.0.1"
-  source = "../../../step_functions"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=step_functions/v1.1.0"
 
   allowed_lambda_functions_to_invoke = [
     module.lambda.lambda_function_arn,
