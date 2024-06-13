@@ -61,8 +61,9 @@ end
 def create_user(instance_id, username, user_properties)
   commands = [
     "set -e",
-    "useradd -m #{username}",
-    user_properties['groups'] ? user_properties['groups'].map { |group| "usermod -aG #{group} #{username}" }.join('; ') : nil,
+    "useradd -m -s #{user_properties['shell']} #{username}",
+    user_properties['groups'] ? user_properties['groups'].map { |group| "groupadd #{group} || true" }.join('; ') : nil,
+    user_properties['groups'] ? "usermod -G #{user_properties['groups'].join(',')} #{username}" : nil,
     "mkdir -p /home/#{username}/.ssh",
     user_properties['ssh_keys'] ? user_properties['ssh_keys'].map { |key| "echo #{key} >> /home/#{username}/.ssh/authorized_keys" }.join('; ') : nil,
     "chown -R #{username}:#{username} /home/#{username}/.ssh",
@@ -77,7 +78,9 @@ end
 def update_user(instance_id, username, user_properties)
   commands = [
     "set -e",
-    user_properties['groups'] ? "usermod -aG #{user_properties['groups'].join(',')} #{username}" : nil,
+    "usermod -s #{user_properties['shell']} #{username}",
+    user_properties['groups'] ? user_properties['groups'].map { |group| "groupadd #{group} || true" }.join('; ') : nil,
+    user_properties['groups'] ? "usermod -G #{user_properties['groups'].join(',')} #{username}" : nil,
     "mkdir -p /home/#{username}/.ssh",
     "truncate -s 0 /home/#{username}/.ssh/authorized_keys",
     user_properties['ssh_keys'] ? user_properties['ssh_keys'].map { |key| "echo #{key} >> /home/#{username}/.ssh/authorized_keys" }.join('; ') : nil,

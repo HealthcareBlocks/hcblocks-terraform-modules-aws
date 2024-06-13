@@ -27,10 +27,16 @@ variable "instance_ids" {
 # -----------------------------------------------------------------------------
 
 variable "groups" {
-  description = "(Optional) Linux user groups that this user should be associated with."
+  description = "(Optional) Linux user groups that this user should be associated with. If a custom group does not exist on the instance, it will be automatically created. However, removing a previously set custom group will not delete it on the instance."
   type        = list(string)
   default     = []
 
+}
+
+variable "shell" {
+  description = "(Optional) Shell type to assign to the user. Must already exist on the instance."
+  type        = string
+  default     = "/bin/bash"
 }
 
 variable "ssh_keys" {
