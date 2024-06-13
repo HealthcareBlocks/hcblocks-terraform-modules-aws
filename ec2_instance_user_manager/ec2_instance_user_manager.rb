@@ -61,7 +61,7 @@ end
 def create_user(instance_id, username, user_properties)
   commands = [
     "set -e",
-    "useradd -m -s #{user_properties['shell']} #{username}",
+    "useradd -U -m -s #{user_properties['shell']} #{username}",
     user_properties['groups'] ? user_properties['groups'].map { |group| "groupadd #{group} || true" }.join('; ') : nil,
     user_properties['groups'] ? "usermod -G #{user_properties['groups'].join(',')} #{username}" : nil,
     "mkdir -p /home/#{username}/.ssh",
