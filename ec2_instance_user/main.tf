@@ -8,5 +8,6 @@ resource "aws_ssm_parameter" "linux_users" {
     groups   = var.groups
     ssh_keys = var.ssh_keys
     sudoer   = var.sudoer
+    shell    = var.shell
   })
 }

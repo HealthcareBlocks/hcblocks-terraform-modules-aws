@@ -20,14 +20,14 @@ locals {
 }
 
 module "ec2_instance_user_manager" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user_manager/v1.1.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user_manager/v1.2.0"
 }
 
 module "ec2_instance_user_tswift" {
-  source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.0.0"
+  source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.1.0"
   instance_ids = [module.instance_bastion.instance_id]
   username     = "tswift"
-  groups       = ["sshusers", "admin"] # these groups should already exist on the instance
+  groups       = ["sshusers", "admin", "managers"]
   ssh_keys     = local.tswift_keys
   sudoer       = true
 
@@ -37,12 +37,13 @@ module "ec2_instance_user_tswift" {
 }
 
 module "ec2_instance_user_tkelce" {
-  source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.0.0"
+  source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.1.0"
   instance_ids = [module.instance_bastion.instance_id]
   username     = "tkelce"
-  groups       = ["sshusers"] # these groups should already exist on the instance
+  groups       = ["sshusers"]
   ssh_keys     = local.tkelce_keys
   sudoer       = false
+  shell        = "/bin/sh" # override default shell
 
   depends_on = [module.ec2_instance_user_manager]
 }
@@ -67,6 +68,7 @@ module "instance_bastion" {
 
   ami_name                      = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
   ami_owners                    = ["099720109477"]
+  associate_public_ip_address   = true
   delete_volumes_on_termination = true # this should be set to false in prod environments
   identifier                    = "bastion"
   instance_type                 = "t3.micro"
@@ -101,6 +103,8 @@ module "instance_bastion" {
     echo "AllowGroups sshusers" >> /etc/ssh/sshd_config
     systemctl restart sshd
     EOF
+
+  depends_on = [module.ec2_instance_user_manager]
 }
 
 module "sns" {
