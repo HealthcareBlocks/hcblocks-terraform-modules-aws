@@ -2,8 +2,9 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 locals {
-  current_region = data.aws_region.current.name
-  bucket_name    = format("%s-%s-%s", var.bucket_prefix, data.aws_caller_identity.current.account_id, local.current_region)
+  current_region  = data.aws_region.current.name
+  current_account = data.aws_caller_identity.current.account_id
+  bucket_name     = format("%s-%s-%s", var.bucket_prefix, local.current_account, local.current_region)
 
   # https://docs.aws.amazon.com/elasticloadbalancing/latest/application/enable-access-logging.html#attach-bucket-policy
   elb_service_accounts = {
@@ -121,7 +122,7 @@ data "aws_iam_policy_document" "this_bucket_policy" {
       condition {
         test     = "StringEquals"
         variable = "aws:SourceAccount"
-        values   = [data.aws_caller_identity.current.account_id]
+        values   = [local.current_account]
       }
     }
   }
@@ -161,6 +162,74 @@ data "aws_iam_policy_document" "this_bucket_policy" {
       resources = [
         "${aws_s3_bucket.this_bucket.arn}/*"
       ]
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.enable_flow_log_delivery ? [1] : []
+
+    content {
+      sid     = "AWSLogDeliveryWrite"
+      actions = ["s3:PutObject"]
+      effect  = "Allow"
+
+      principals {
+        type        = "Service"
+        identifiers = ["delivery.logs.amazonaws.com"]
+      }
+
+      resources = [
+        "${aws_s3_bucket.this_bucket.arn}/AWSLogs/${local.current_account}/*"
+      ]
+
+      condition {
+        test     = "StringEquals"
+        variable = "aws:SourceAccount"
+        values   = [local.current_account]
+      }
+
+      condition {
+        test     = "StringEquals"
+        variable = "s3:x-amz-acl"
+        values   = ["bucket-owner-full-control"]
+      }
+
+      condition {
+        test     = "ArnLike"
+        variable = "aws:SourceArn"
+        values   = ["arn:aws:logs:${local.current_region}:${local.current_account}:*"]
+      }
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.enable_flow_log_delivery ? [1] : []
+
+    content {
+      sid     = "AWSLogDeliveryAclCheck"
+      actions = ["s3:GetBucketAcl"]
+      effect  = "Allow"
+
+      principals {
+        type        = "Service"
+        identifiers = ["delivery.logs.amazonaws.com"]
+      }
+
+      resources = [
+        aws_s3_bucket.this_bucket.arn
+      ]
+
+      condition {
+        test     = "StringEquals"
+        variable = "aws:SourceAccount"
+        values   = [local.current_account]
+      }
+
+      condition {
+        test     = "ArnLike"
+        variable = "aws:SourceArn"
+        values   = ["arn:aws:logs:${local.current_region}:${local.current_account}:*"]
+      }
     }
   }
 }

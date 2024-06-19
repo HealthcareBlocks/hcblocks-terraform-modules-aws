@@ -27,7 +27,7 @@ module "lambda" {
 }
 
 module "vpc" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.1.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.2.0"
 
   cidr_block                        = "10.10.0.0/16"
   vpc_name                          = "vpc"

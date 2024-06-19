@@ -17,7 +17,7 @@ locals {
 }
 
 module "vpc" {
-  source     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.1.0"
+  source     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.2.0"
   cidr_block = "10.100.0.0/16"
   vpc_name   = "vpc-prod"
 }
@@ -73,7 +73,7 @@ module "instance_web_2" {
 }
 
 module "log_bucket" {
-  source                            = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.1.0"
+  source                            = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.2.0"
   bucket_prefix                     = "logs"
   enable_load_balancer_log_delivery = true
   force_destroy                     = true # set to false in production environments
