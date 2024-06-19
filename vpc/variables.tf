@@ -22,6 +22,16 @@ variable "availability_zone_count" {
   default     = 2
 }
 
+variable "flow_log_config" {
+  description = "Configuration of flow log(s) for this VPC."
+  type        = map(any)
+  default = {
+    cw_logs_destination_enabled = true
+    s3_destination_enabled      = false
+    s3_bucket_arn               = null
+  }
+}
+
 variable "private_subnets_enabled" {
   description = "Creates private subnets within this VPC. Per AWS Well-Architected Framework SEC05-BP01, create network layers by using private subnets for resources that do not receive direct inbound network traffic from public sources."
   type        = bool

@@ -94,6 +94,12 @@ variable "cors_rules" {
   default = []
 }
 
+variable "enable_flow_log_delivery" {
+  description = "Whether this bucket will receive VPC flow logs."
+  type        = bool
+  default     = false
+}
+
 variable "enable_load_balancer_log_delivery" {
   description = "Whether this bucket will receive logs from AWS load balancers. See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/enable-access-logging.html."
   type        = bool
