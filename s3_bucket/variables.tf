@@ -3,13 +3,8 @@
 # -----------------------------------------------------------------------------
 
 variable "bucket_prefix" {
-  description = "First part of bucket name. Module automatically appends account id and region to name."
+  description = "First part of bucket name. AWS account id and region name are automatically appended to this prefix unless use_default_naming_format is set to false."
   type        = string
-
-  validation {
-    condition     = length(var.bucket_prefix) < 36
-    error_message = "The bucket_prefix must be no longer than 35 characters."
-  }
 
   validation {
     condition     = can(regex("^[a-z0-9][a-z0-9.-]*$", var.bucket_prefix))
@@ -140,6 +135,12 @@ variable "tags" {
   description = "Key-value tags for this bucket."
   type        = map(string)
   default     = {}
+}
+
+variable "use_default_naming_format" {
+  description = "Whether to use the default bucket naming format of [bucket_prefix]-[AWS account id]-[AWS region name]. If set to false, only the value of bucket_prefix is used."
+  type        = bool
+  default     = true
 }
 
 variable "versioning_enabled" {

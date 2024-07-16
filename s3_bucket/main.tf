@@ -4,7 +4,7 @@ data "aws_region" "current" {}
 locals {
   current_region  = data.aws_region.current.name
   current_account = data.aws_caller_identity.current.account_id
-  bucket_name     = format("%s-%s-%s", var.bucket_prefix, local.current_account, local.current_region)
+  bucket_name     = var.use_default_naming_format ? format("%s-%s-%s", var.bucket_prefix, local.current_account, local.current_region) : var.bucket_prefix
 
   # https://docs.aws.amazon.com/elasticloadbalancing/latest/application/enable-access-logging.html#attach-bucket-policy
   elb_service_accounts = {
@@ -41,6 +41,13 @@ resource "aws_s3_bucket" "this_bucket" {
   bucket        = local.bucket_name
   force_destroy = var.force_destroy
   tags          = var.tags
+
+  lifecycle {
+    precondition {
+      condition     = length(local.bucket_name) > 2 && length(local.bucket_name) < 64
+      error_message = "Bucket name must be between 3 and 63 characters long."
+    }
+  }
 }
 
 resource "aws_s3_bucket_logging" "this_bucket" {
