@@ -17,6 +17,7 @@ resource "aws_ecs_service" "this" {
   name                   = var.name
   platform_version       = var.fargate_platform_version
   task_definition        = aws_ecs_task_definition.this.arn
+  tags                   = var.tags
 
   dynamic "alarms" {
     for_each = length(var.alarm_names) > 0 ? [var.alarm_names] : []

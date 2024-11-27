@@ -91,7 +91,7 @@ module "ecs_cluster" {
 }
 
 module "ecs_service" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ecs_fargate_service/v1.0.2"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ecs_fargate_service/v1.1.0"
 
   name            = "app"
   ecs_cluster_id  = module.ecs_cluster.id
@@ -146,6 +146,10 @@ module "ecs_service" {
 
   tasks_iam_role_policies = {
     S3Policy = aws_iam_policy.log_bucket_access.arn,
+  }
+
+  tags = {
+    environment = "test"
   }
 }
 

@@ -160,6 +160,12 @@ variable "service_registries" {
   default     = {}
 }
 
+variable "tags" {
+  description = "Tags to set on the ECS service"
+  type        = any
+  default     = {}
+}
+
 variable "task_family" {
   description = "A unique name for your task"
   type        = string
