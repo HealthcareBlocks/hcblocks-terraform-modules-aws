@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.8"
+  required_version = "~> 1.11"
 }
 
 provider "aws" {
@@ -9,14 +9,14 @@ provider "aws" {
 data "aws_caller_identity" "current" {}
 
 module "sns_default_sse_encryption" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=sns/v1.0.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=sns/v1.1.0"
 
   kms_master_key_id = "alias/aws/sns"
   topic_name        = "security-alerts"
 }
 
 module "sns_custom_kms_encryption" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=sns/v1.0.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=sns/v1.1.0"
 
   kms_master_key_id = aws_kms_key.sns.arn
   topic_name        = "user-alerts"

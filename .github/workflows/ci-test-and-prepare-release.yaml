@@ -75,7 +75,7 @@ jobs:
     uses: ./.github/workflows/reusable-validate.yaml
     with:
       appId: ${{ vars.APP_ID }}
-      terraformVersion: "1.8.2"
+      terraformVersion: "1.11.4"
       moduleRootDirectory: ${{ matrix.directory }}
     secrets:
       appPrivateKey: ${{ secrets.APP_PRIVATE_KEY }}

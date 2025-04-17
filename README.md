@@ -10,7 +10,7 @@ Examples are provided in the [examples](examples) directory.
 
 ## Prerequisites
 
-- Terraform 1.8 ([install](https://developer.hashicorp.com/terraform/install))
+- Terraform 1.11 ([install](https://developer.hashicorp.com/terraform/install))
 - [AWS credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration) (but don't embed secret access keys in code!)
 
 ## Tips
