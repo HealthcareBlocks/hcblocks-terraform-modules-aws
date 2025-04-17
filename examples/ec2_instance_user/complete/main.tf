@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.8"
+  required_version = "~> 1.11"
 }
 
 provider "aws" {
@@ -20,11 +20,11 @@ locals {
 }
 
 module "ec2_instance_user_manager" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user_manager/v1.2.2"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user_manager/v1.3.0"
 }
 
 module "ec2_instance_user_tswift" {
-  source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.1.0"
+  source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.2.0"
   instance_ids = [module.instance_bastion.instance_id]
   username     = "tswift"
   groups       = ["sshusers", "admin", "managers"]
@@ -37,7 +37,7 @@ module "ec2_instance_user_tswift" {
 }
 
 module "ec2_instance_user_tkelce" {
-  source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.1.0"
+  source       = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance_user/v1.2.0"
   instance_ids = [module.instance_bastion.instance_id]
   username     = "tkelce"
   groups       = ["sshusers"]
@@ -53,7 +53,7 @@ module "ec2_instance_user_tkelce" {
 # -----------------------------------------------------------------------------
 
 module "vpc" {
-  source                  = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.2.0"
+  source                  = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.3.0"
   cidr_block              = "10.10.0.0/16"
   private_subnets_enabled = false
   vpc_name                = "vpc-test"
@@ -64,7 +64,7 @@ module "vpc" {
 # -----------------------------------------------------------------------------
 
 module "instance_bastion" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.0.2"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ec2_instance/v1.1.0"
 
   ami_name                      = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
   ami_owners                    = ["099720109477"]
@@ -108,6 +108,6 @@ module "instance_bastion" {
 }
 
 module "sns" {
-  source     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=sns/v1.0.0"
+  source     = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=sns/v1.1.0"
   topic_name = "ec2-instance-alarms"
 }

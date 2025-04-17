@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.8"
+  required_version = "~> 1.11"
 }
 
 provider "aws" {
@@ -7,7 +7,7 @@ provider "aws" {
 }
 
 module "vpc_cloudwatch_flow_log" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.2.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.3.0"
 
   cidr_block              = "10.0.0.0/16"
   private_subnets_enabled = false
@@ -15,7 +15,7 @@ module "vpc_cloudwatch_flow_log" {
 }
 
 module "vpc_s3_flow_log" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.2.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.3.0"
 
   cidr_block              = "10.10.0.0/16"
   private_subnets_enabled = false
@@ -28,7 +28,7 @@ module "vpc_s3_flow_log" {
 }
 
 module "vpc_multi_flow_log" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.2.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.3.0"
 
   cidr_block              = "10.20.0.0/16"
   private_subnets_enabled = false
@@ -42,7 +42,7 @@ module "vpc_multi_flow_log" {
 }
 
 module "flow_logs_bucket" {
-  source                   = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.2.0"
+  source                   = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=s3_bucket/v1.4.0"
   bucket_prefix            = "flow-logs"
   enable_flow_log_delivery = true
 }

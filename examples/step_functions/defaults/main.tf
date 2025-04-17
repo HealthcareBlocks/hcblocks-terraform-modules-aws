@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.8"
+  required_version = "~> 1.11"
 }
 
 provider "aws" {
@@ -7,7 +7,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.2.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=vpc/v1.3.0"
 
   cidr_block                        = "10.10.0.0/16"
   vpc_name                          = "vpc"
@@ -15,7 +15,7 @@ module "vpc" {
 }
 
 module "lambda" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.1.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=lambda_function/v1.2.0"
 
   filename           = "${path.module}/helloworld.py"
   function_name      = "helloworld"
@@ -45,13 +45,13 @@ resource "aws_security_group" "lambda_helloworld" {
 }
 
 module "cloudwatch_logs" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=cloudwatch_logs/v1.0.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=cloudwatch_logs/v1.1.0"
 
   log_group_name = "/state_machines"
 }
 
 module "step_functions" {
-  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=step_functions/v1.1.0"
+  source = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=step_functions/v1.2.0"
 
   allowed_lambda_functions_to_invoke = [
     module.lambda.lambda_function_arn,

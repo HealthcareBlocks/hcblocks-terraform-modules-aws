@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.8"
+  required_version = "~> 1.11"
 }
 
 provider "aws" {
@@ -7,7 +7,7 @@ provider "aws" {
 }
 
 module "ecr_repo" {
-  source      = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ecr/v1.0.0"
+  source      = "git::https://github.com/HealthcareBlocks/hcblocks-terraform-modules-aws.git?ref=ecr/v1.1.0"
   name_prefix = "ecr-default"
 }
 
