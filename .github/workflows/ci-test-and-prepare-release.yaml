@@ -112,7 +112,7 @@ jobs:
     runs-on: ubuntu-latest
     name: "Comment on PR"
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           path: outputs
 
@@ -168,7 +168,7 @@ jobs:
     runs-on: ubuntu-latest
     name: "Dispatch release event"
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           path: outputs
 
